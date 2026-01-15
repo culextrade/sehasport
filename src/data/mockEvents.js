@@ -1,0 +1,45 @@
+export const CATEGORIES = [
+    { id: 'tennis', name: 'Tennis', icon: '🎾' },
+    { id: 'padel', name: 'Padel', icon: '🏏' },
+    { id: 'minisoccer', name: 'Mini Soccer', icon: '⚽' },
+];
+
+export const MOCK_EVENTS = [
+    {
+        id: 1,
+        title: 'Beginner Friendly Doubles',
+        sport: 'Tennis',
+        date: 'Today, 19:00',
+        location: 'Gelora Bung Karno',
+        price: 'Rp 50.000',
+        participants: 3,
+        maxParticipants: 4,
+        level: 'Beginner',
+        image: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?auto=format&fit=crop&q=80&w=800',
+        isFeatured: true,
+    },
+    {
+        id: 2,
+        title: 'Padel Morning Grind',
+        sport: 'Padel',
+        date: 'Tomorrow, 07:00',
+        location: 'Kemang Padel Club',
+        price: 'Rp 75.000',
+        participants: 1,
+        maxParticipants: 4,
+        level: 'Intermediate',
+        image: 'https://images.unsplash.com/photo-1627627476839-503c00223edb?auto=format&fit=crop&q=80&w=800',
+    },
+    {
+        id: 3,
+        title: 'Mini Soccer Fun Match',
+        sport: 'Mini Soccer',
+        date: 'Fri, 20:00',
+        location: 'Pitch 98',
+        price: 'Rp 35.000',
+        participants: 8,
+        maxParticipants: 12,
+        level: 'Open',
+        image: 'https://images.unsplash.com/photo-1543351611-58f69d7c1781?auto=format&fit=crop&q=80&w=800',
+    },
+];

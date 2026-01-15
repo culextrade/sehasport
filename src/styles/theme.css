@@ -1,0 +1,38 @@
+:root {
+  /* Colors */
+  --color-bg: #0F172A; /* Slate 900 */
+  --color-surface: #1E293B; /* Slate 800 */
+  --color-surface-hover: #334155; /* Slate 700 */
+  
+  --color-primary: #CCFF00; /* Electric Lime */
+  --color-primary-fg: #0F172A;
+  
+  --color-secondary: #38BDF8; /* Sky Blue */
+  --color-secondary-fg: #0F172A;
+  
+  --color-text: #F1F5F9; /* Slate 100 */
+  --color-text-muted: #94A3B8; /* Slate 400 */
+  
+  --color-border: #334155;
+  
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  /* Animation */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
