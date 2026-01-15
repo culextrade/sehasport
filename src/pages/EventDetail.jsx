@@ -116,9 +116,28 @@ const EventDetail = () => {
                         <Clock size={20} color="var(--color-secondary)" />
                         <span>90 mins duration</span>
                     </div>
-                    <div style={iconRowStyle}>
-                        <MapPin size={20} color="var(--color-secondary)" />
-                        <span>{event.location}</span>
+                    <div style={{ ...iconRowStyle, alignItems: 'flex-start' }}>
+                        <MapPin size={20} color="var(--color-secondary)" style={{ marginTop: '2px' }} />
+                        <div>
+                            <span style={{ display: 'block', marginBottom: '4px' }}>{event.location}</span>
+                            {event.venues?.lat && (
+                                <button
+                                    onClick={() => window.open(`https://www.google.com/maps/dir/?api=1&destination=${event.venues.lat},${event.venues.lng}`, '_blank')}
+                                    style={{
+                                        border: '1px solid var(--color-primary)',
+                                        backgroundColor: 'transparent',
+                                        color: 'var(--color-primary)',
+                                        padding: '4px 12px',
+                                        borderRadius: '16px',
+                                        fontSize: '12px',
+                                        fontWeight: 'bold',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    Navigate ↗
+                                </button>
+                            )}
+                        </div>
                     </div>
                     {event.level && (
                         <div style={iconRowStyle}>

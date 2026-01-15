@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Home, Search, PlusCircle, User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import '../styles/theme.css'; // Ensure theme vars are available
 
 const BottomNav = () => {
@@ -30,20 +31,34 @@ const BottomNav = () => {
         transition: 'color 0.2s',
     });
 
+    const { role } = useAuth();
+
     return (
         <nav style={navStyle}>
+            {/* Common: Home/Dashboard */}
             <NavLink to="/" style={linkStyle}>
                 <Home size={24} />
-                <span>Home</span>
+                <span>{role === 'seeker' ? 'Explore' : 'Dash'}</span>
             </NavLink>
-            <NavLink to="/explore" style={linkStyle}>
-                <Search size={24} />
-                <span>Explore</span>
-            </NavLink>
-            <NavLink to="/create" style={linkStyle}>
-                <PlusCircle size={24} />
-                <span>Create</span>
-            </NavLink>
+
+            {/* Seeker Only: Explore/Search explicitly (Optional, maybe redundant if Home is Explore) */}
+            {role === 'seeker' && (
+                <NavLink to="/explore" style={linkStyle}>
+                    <Search size={24} />
+                    <span>Search</span>
+                </NavLink>
+            )}
+
+            {/* Community Only: Create Event */}
+            {role === 'community' && (
+                <NavLink to="/create" style={linkStyle}>
+                    <PlusCircle size={24} />
+                    <span>Create</span>
+                </NavLink>
+            )}
+
+            {/* Venue Only: Register/Edit Venue (Maybe?) - For now just Profile */}
+            {/* Common: Profile */}
             <NavLink to="/profile" style={linkStyle}>
                 <User size={24} />
                 <span>Profile</span>

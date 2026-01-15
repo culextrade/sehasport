@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEvents } from '../context/EventsContext';
-import { ArrowLeft } from 'lucide-react';
+import { supabase } from '../supabaseClient';
+import { ArrowLeft, MapPin } from 'lucide-react';
 
 const CreateEvent = () => {
     const navigate = useNavigate();
     const { addEvent } = useEvents();
+
+    const [venues, setVenues] = useState([]);
+
+    // Fetch venues on mount
+    useEffect(() => {
+        const fetchVenues = async () => {
+            const { data } = await supabase.from('venues').select('*');
+            setVenues(data || []);
+        };
+        fetchVenues();
+    }, []);
 
     // Simple mock image for all new events for now
     const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=800';
@@ -15,6 +27,7 @@ const CreateEvent = () => {
         sport: 'Tennis',
         date: '',
         location: '',
+        venue_id: null,
         price: 'Rp ',
         max_participants: 4,
         level: 'Open',
@@ -23,6 +36,21 @@ const CreateEvent = () => {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleVenueSelect = (e) => {
+        const selectedVenueId = e.target.value;
+        if (!selectedVenueId) return;
+
+        const selectedVenue = venues.find(v => v.id.toString() === selectedVenueId);
+        if (selectedVenue) {
+            setFormData({
+                ...formData,
+                venue_id: selectedVenue.id,
+                location: selectedVenue.location, // Auto-fill location text with venue address
+                image_url: selectedVenue.image_url || DEFAULT_IMAGE // Auto-use venue image if available
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -104,6 +132,27 @@ const CreateEvent = () => {
                 </div>
 
                 <div>
+                    <label style={labelStyle}>Select Venue</label>
+                    <select
+                        style={inputStyle}
+                        onChange={handleVenueSelect}
+                        defaultValue=""
+                    >
+                        <option value="" disabled>-- Choose a Venue --</option>
+                        {venues.map(v => (
+                            <option key={v.id} value={v.id}>
+                                {v.name} ({v.location})
+                            </option>
+                        ))}
+                    </select>
+                    {formData.location && (
+                        <div style={{ fontSize: '12px', color: 'var(--color-secondary)', marginBottom: '16px', display: 'flex', gap: '4px', alignItems: 'center' }}>
+                            <MapPin size={12} /> {formData.location}
+                        </div>
+                    )}
+                </div>
+
+                <div>
                     <label style={labelStyle}>Date & Time</label>
                     <input
                         style={inputStyle}
@@ -111,18 +160,6 @@ const CreateEvent = () => {
                         value={formData.date}
                         onChange={handleChange}
                         placeholder="e.g. Tomorrow, 19:00"
-                        required
-                    />
-                </div>
-
-                <div>
-                    <label style={labelStyle}>Location</label>
-                    <input
-                        style={inputStyle}
-                        name="location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        placeholder="Venue Name"
                         required
                     />
                 </div>

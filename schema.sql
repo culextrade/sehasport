@@ -4,6 +4,7 @@ create table profiles (
   email text,
   full_name text,
   avatar_url text,
+  role text check (role in ('seeker', 'community', 'venue')) default 'seeker',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

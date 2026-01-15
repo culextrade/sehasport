@@ -7,6 +7,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isSignUp, setIsSignUp] = useState(false);
+    const [role, setRole] = useState('seeker');
     const { signIn, signUp } = useAuth();
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -20,7 +21,13 @@ const Login = () => {
         setLoading(true);
         try {
             if (isSignUp) {
-                const { error } = await signUp({ email, password });
+                const { error } = await signUp({
+                    email,
+                    password,
+                    options: {
+                        data: { role }
+                    }
+                });
                 if (error) throw error;
                 setMsg('Account created! Please check your email to verify.');
             } else {
@@ -76,6 +83,32 @@ const Login = () => {
             {msg && <div style={{ color: 'var(--color-primary)', marginBottom: '16px', fontSize: '14px' }}>{msg}</div>}
 
             <form onSubmit={handleSubmit}>
+                {isSignUp && (
+                    <div style={{ marginBottom: '20px' }}>
+                        <label style={{ fontSize: '14px', color: 'var(--color-text-muted)', marginBottom: '8px', display: 'block' }}>I want to...</label>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                            {['seeker', 'community', 'venue'].map((r) => (
+                                <div
+                                    key={r}
+                                    onClick={() => setRole(r)}
+                                    style={{
+                                        padding: '10px',
+                                        borderRadius: '8px',
+                                        border: role === r ? '2px solid var(--color-primary)' : '1px solid var(--color-border)',
+                                        backgroundColor: role === r ? 'rgba(204, 255, 0, 0.1)' : 'var(--color-surface)',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        fontSize: '12px',
+                                        textTransform: 'capitalize'
+                                    }}
+                                >
+                                    {r === 'seeker' ? 'Play' : r === 'community' ? 'Organize' : 'Host'}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <div style={{ marginBottom: '16px' }}>
                     <label style={{ fontSize: '14px', color: 'var(--color-text-muted)' }}>Email</label>
                     <input

@@ -15,7 +15,7 @@ export const EventsProvider = ({ children }) => {
         try {
             const { data, error } = await supabase
                 .from('events')
-                .select('*')
+                .select('*, venues ( name, location, lat, lng )') // Join venues table
                 .order('date', { ascending: true });
 
             if (error) throw error;
