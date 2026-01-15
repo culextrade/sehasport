@@ -1,0 +1,22 @@
+{
+    "name": "SehaSport - Komunitas Olahraga Lokal",
+    "short_name": "SehaSport",
+    "description": "Temukan teman main tenis, padel, dan mini soccer di sekitarmu.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#121212",
+    "theme_color": "#CCFF00",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}
