@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Search, PlusCircle, User } from 'lucide-react';
+import { Home, Search, PlusCircle, User, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import '../styles/theme.css'; // Ensure theme vars are available
+import '../styles/theme.css';
 
 const BottomNav = () => {
     const navStyle = {
@@ -11,11 +11,12 @@ const BottomNav = () => {
         transform: 'translateX(-50%)',
         width: '100%',
         maxWidth: '480px',
-        backgroundColor: 'var(--color-surface)',
-        borderTop: '1px solid var(--color-border)',
+        backgroundColor: 'rgba(15, 15, 26, 0.95)',
+        backdropFilter: 'blur(10px)',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
         display: 'flex',
         justifyContent: 'space-around',
-        padding: '12px 0 24px', // Extra padding for safe area
+        padding: '12px 0 24px',
         zIndex: 50,
     };
 
@@ -24,8 +25,8 @@ const BottomNav = () => {
         flexDirection: 'column',
         alignItems: 'center',
         gap: '4px',
-        color: isActive ? 'var(--color-primary)' : 'var(--color-text-muted)',
-        fontSize: '12px',
+        color: isActive ? '#6366f1' : 'rgba(255, 255, 255, 0.5)',
+        fontSize: '11px',
         fontWeight: 500,
         textDecoration: 'none',
         transition: 'color 0.2s',
@@ -35,32 +36,33 @@ const BottomNav = () => {
 
     return (
         <nav style={navStyle}>
-            {/* Common: Home/Dashboard */}
+            {/* Home */}
             <NavLink to="/" style={linkStyle}>
-                <Home size={24} />
-                <span>{role === 'seeker' ? 'Explore' : 'Dash'}</span>
+                <Home size={22} />
+                <span>Home</span>
             </NavLink>
 
-            {/* Seeker Only: Explore/Search explicitly (Optional, maybe redundant if Home is Explore) */}
-            {role === 'seeker' && (
-                <NavLink to="/explore" style={linkStyle}>
-                    <Search size={24} />
-                    <span>Search</span>
-                </NavLink>
-            )}
+            {/* Explore/Search */}
+            <NavLink to="/explore" style={linkStyle}>
+                <Search size={22} />
+                <span>Explore</span>
+            </NavLink>
 
-            {/* Community Only: Create Event */}
-            {role === 'community' && (
-                <NavLink to="/create" style={linkStyle}>
-                    <PlusCircle size={24} />
-                    <span>Create</span>
-                </NavLink>
-            )}
+            {/* Create - for community role or any logged in user */}
+            <NavLink to="/create" style={linkStyle}>
+                <PlusCircle size={22} />
+                <span>Create</span>
+            </NavLink>
 
-            {/* Venue Only: Register/Edit Venue (Maybe?) - For now just Profile */}
-            {/* Common: Profile */}
+            {/* Communities */}
+            <NavLink to="/communities" style={linkStyle}>
+                <Users size={22} />
+                <span>Groups</span>
+            </NavLink>
+
+            {/* Profile */}
             <NavLink to="/profile" style={linkStyle}>
-                <User size={24} />
+                <User size={22} />
                 <span>Profile</span>
             </NavLink>
         </nav>

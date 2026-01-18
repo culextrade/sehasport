@@ -42,12 +42,33 @@ export const AuthProvider = ({ children }) => {
         return () => subscription.unsubscribe();
     }, []);
 
+    const updateRole = async (newRole) => {
+        if (!user) return;
+
+        try {
+            const { error } = await supabase
+                .from('profiles')
+                .update({ role: newRole })
+                .eq('id', user.id);
+
+            if (error) throw error;
+
+            // Update local state
+            setProfile(prev => ({ ...prev, role: newRole }));
+            return { data: newRole };
+        } catch (error) {
+            console.error('Error updating role:', error);
+            return { error };
+        }
+    };
+
     const value = {
         signUp: (data) => supabase.auth.signUp(data),
         signIn: (data) => supabase.auth.signInWithPassword(data),
         signOut: () => supabase.auth.signOut(),
         user,
-        role: profile?.role || 'seeker', // Default to seeker
+        role: profile?.role || null, // Changed default to null so we can detect "not set" for onboarding
+        setRole: updateRole, // Expose as setRole to match usage in Profile.jsx
         profile
     };
 

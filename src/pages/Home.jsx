@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Plus, Calendar, MapPin as VenueIcon } from 'lucide-react';
 import EventCard from '../components/EventCard';
+import RoleBadge from '../components/RoleBadge';
+import EmptyState from '../components/EmptyState';
 
 const SeekerHome = ({ events, activeCategory, setActiveCategory, navigate }) => {
     const [userLocation, setUserLocation] = useState(null);
@@ -82,8 +84,13 @@ const SeekerHome = ({ events, activeCategory, setActiveCategory, navigate }) => 
                     <MapPin size={16} />
                     <span>{userLocation ? 'Your Location (GPS)' : 'Jakarta Selatan, ID'}</span>
                 </div>
-                <h1 style={{ fontSize: '28px', marginBottom: '8px' }}>Find your game ⚡</h1>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <h1 style={{ fontSize: '28px', marginBottom: '8px' }}>Find your game ⚡</h1>
+                </div>
                 <p style={{ color: 'var(--color-text-muted)', fontSize: '14px' }}>Join 24+ sports events happening around you.</p>
+                <div style={{ marginTop: '8px', marginBottom: '16px' }}>
+                    <RoleBadge role="player" />
+                </div>
             </div>
 
             {/* Featured Section */}
@@ -117,19 +124,27 @@ const SeekerHome = ({ events, activeCategory, setActiveCategory, navigate }) => 
                     </h2>
                 </div>
 
-                {filteredEvents.map(event => (
-                    <div key={event.id} onClick={() => navigate(`/event/${event.id}`)}>
-                        <EventCard event={event} />
-                        {event.distance && (
-                            <div style={{
-                                fontSize: '12px', color: 'var(--color-primary)', marginTop: '-8px', marginBottom: '16px',
-                                display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 'bold'
-                            }}>
-                                <MapPin size={12} /> {event.distance.toFixed(1)} km away
-                            </div>
-                        )}
-                    </div>
-                ))}
+                {filteredEvents.length === 0 ? (
+                    <EmptyState
+                        title="No events found"
+                        description="Try changing the category filter or looking in a different area."
+                        icon="sparkles"
+                    />
+                ) : (
+                    filteredEvents.map(event => (
+                        <div key={event.id} onClick={() => navigate(`/event/${event.id}`)}>
+                            <EventCard event={event} />
+                            {event.distance && (
+                                <div style={{
+                                    fontSize: '12px', color: 'var(--color-primary)', marginTop: '-8px', marginBottom: '16px',
+                                    display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 'bold'
+                                }}>
+                                    <MapPin size={12} /> {event.distance.toFixed(1)} km away
+                                </div>
+                            )}
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
@@ -145,7 +160,10 @@ const CommunityDashboard = ({ events, user, navigate }) => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1 style={{ fontSize: '24px', marginBottom: '24px' }}>Community Dashboard 📢</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '24px' }}>
+                <h1 style={{ fontSize: '24px', margin: 0 }}>Community Dashboard 📢</h1>
+                <RoleBadge role="community" />
+            </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '24px' }}>
                 <div style={{ backgroundColor: 'var(--color-surface)', padding: '16px', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
@@ -179,9 +197,13 @@ const CommunityDashboard = ({ events, user, navigate }) => {
                     </div>
                 ))
             ) : (
-                <div style={{ textAlign: 'center', color: 'var(--color-text-muted)', padding: '20px' }}>
-                    You haven't created any events yet.
-                </div>
+                <EmptyState
+                    title="Community is quiet..."
+                    description="Usually, the first post is the hardest. Break the ice!"
+                    actionLabel="Create First Event"
+                    onAction={() => navigate('/create')}
+                    icon="users"
+                />
             )}
         </div>
     );
@@ -190,7 +212,11 @@ const CommunityDashboard = ({ events, user, navigate }) => {
 const VenueDashboard = ({ navigate }) => {
     return (
         <div style={{ padding: '20px' }}>
-            <h1 style={{ fontSize: '24px', marginBottom: '24px' }}>Venue Dashboard 🏟️</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '24px' }}>
+                <h1 style={{ fontSize: '24px', margin: 0 }}>Venue Dashboard 🏟️</h1>
+                <RoleBadge role="venue" />
+            </div>
+
             <div style={{ backgroundColor: 'var(--color-surface)', padding: '20px', borderRadius: '12px', border: '1px solid var(--color-border)', textAlign: 'center' }}>
                 <VenueIcon size={48} style={{ color: 'var(--color-text-muted)', marginBottom: '16px' }} />
                 <h3>Your Venue Profile</h3>
